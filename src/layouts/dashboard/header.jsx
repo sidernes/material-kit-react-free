@@ -15,20 +15,25 @@ import Iconify from 'src/components/iconify';
 
 import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
+import DarkModeToggle from './common/DarkModeToggle';
 import AccountPopover from './common/account-popover';
 import LanguagePopover from './common/language-popover';
 import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }) {
+export default function Header({ onOpenNav, hideSidebar, sidebarVisible }) {
   const theme = useTheme();
 
   const lgUp = useResponsive('up', 'lg');
 
   const renderContent = (
     <>
-      {!lgUp && (
+      {lgUp ? (
+        <IconButton onClick={hideSidebar} sx={{ mr: 1 }}>
+          <Iconify icon={sidebarVisible ? 'icon-park-outline:left' : 'icon-park-outline:right'} />
+        </IconButton>
+      ) : (
         <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
@@ -39,6 +44,7 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
+        <DarkModeToggle />
         <LanguagePopover />
         <NotificationsPopover />
         <AccountPopover />
@@ -58,10 +64,11 @@ export default function Header({ onOpenNav }) {
         transition: theme.transitions.create(['height'], {
           duration: theme.transitions.duration.shorter,
         }),
-        ...(lgUp && {
-          width: `calc(100% - ${NAV.WIDTH + 1}px)`,
-          height: HEADER.H_DESKTOP,
-        }),
+        ...(lgUp &&
+          sidebarVisible && {
+            width: `calc(100% - ${NAV.WIDTH + 1}px)`,
+            height: HEADER.H_DESKTOP,
+          }),
       }}
     >
       <Toolbar
@@ -78,4 +85,6 @@ export default function Header({ onOpenNav }) {
 
 Header.propTypes = {
   onOpenNav: PropTypes.func,
+  hideSidebar: PropTypes.bool,
+  sidebarVisible: PropTypes.bool,
 };

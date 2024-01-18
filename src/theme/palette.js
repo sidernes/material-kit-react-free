@@ -121,3 +121,23 @@ export function palette() {
     },
   };
 }
+
+export function paletteDark() {
+  return {
+    ...base,
+    mode: 'dark',
+    background: {
+      default: grey[800],
+      paper: '#1E2125',
+    },
+    text: {
+      primary: '#FFFFFF',
+      secondary: grey[500],
+      disabled: grey[500],
+    },
+    action: {
+      ...base.action,
+      active: grey[500],
+    },
+  };
+}

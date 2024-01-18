@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 
@@ -11,10 +11,21 @@ import Header from './header';
 
 export default function DashboardLayout({ children }) {
   const [openNav, setOpenNav] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  useEffect(() => {
+    console.log('sidebarVisible: ', sidebarVisible);
+  }, [sidebarVisible]);
 
   return (
     <>
-      <Header onOpenNav={() => setOpenNav(true)} />
+      <Header
+        onOpenNav={() => {
+          setOpenNav(true);
+          setSidebarVisible(true);
+        }}
+        hideSidebar={() => setSidebarVisible(!sidebarVisible)}
+        sidebarVisible={sidebarVisible}
+      />
 
       <Box
         sx={{
@@ -23,7 +34,9 @@ export default function DashboardLayout({ children }) {
           flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        <Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />
+        {sidebarVisible && (
+          <Nav openNav={openNav} openSidebar={false} onCloseNav={() => setOpenNav(false)} />
+        )}
 
         <Main>{children}</Main>
       </Box>
