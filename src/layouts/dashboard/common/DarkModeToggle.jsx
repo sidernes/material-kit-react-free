@@ -18,7 +18,7 @@ const DarkModeToggle = () => {
     <IconButton onClick={handleClick}>
       <Iconify
         icon={darkMode ? 'eva:sun-fill' : 'eva:moon-fill'}
-        color={darkMode ? theme.palette.warning.main : theme.palette.secondary.dark}
+        color={darkMode ? theme.palette.warning.light : theme.palette.grey[500]}
       />
     </IconButton>
   );
